@@ -20,7 +20,7 @@ end
 
 function draw_player()
 	spr(player.sprite, player.position.x,player.position.y)
-	my_debug()
+	-- my_debug()
 end
 
 function my_debug()
@@ -34,12 +34,12 @@ function my_debug()
 	print(vx, 15, 24, 10)
 	print("vy: ", 1, 30, 10)
 	print(vy, 15, 30, 10)
-	print(tru)
-	print(trd)
-	print(tlu)
-	print(tld)
-	print(tur)
-	print(tul)
+	-- print(tru)
+	-- print(trd)
+	-- print(tlu)
+	-- print(tld)
+	-- print(tur)
+	-- print(tul)
 end
 
 function make_keymap()

@@ -1,6 +1,6 @@
 fget = fget
-gravity = 0				--0.4
-jump = -3.5
+gravity = 0.2				--0.4
+jump = -2.5
 h_increase = 1
 player = {
 	position = {
@@ -113,13 +113,11 @@ function move_player()
 	else
 		player.velocity.x = 0
 	end
-	if player.go_up then
-		player.velocity.y = -h_increase
-	elseif player.go_down then
-		player.velocity.y = h_increase
-	else
-		player.velocity.y = 0
-	end
+	--if player.go_up then
+	--	player.velocity.y = -h_increase
+	--elseif player.go_down then
+	--	player.velocity.y = h_increase
+	--end
 
 	if player.velocity.y < 3 then
 		player.velocity.y = player.velocity.y + gravity
