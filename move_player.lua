@@ -1,6 +1,6 @@
-fget = fget
+fget, sfx = fget, sfx
 gravity = 0.2				--0.4
-jump = -2.5
+jump = -2.8
 h_increase = 1
 player = {
 	position = {
@@ -104,7 +104,10 @@ function move_player()
 	if key_up(2) then player.go_up = false end
 	if key_up(3) then player.go_down = false end
 
-	if key_down(4) then player.velocity.y = jump end
+	if key_down(4) then
+		player.velocity.y = jump
+		sfx(0)
+	end
 
 	if player.go_left then
 		player.velocity.x = -h_increase
