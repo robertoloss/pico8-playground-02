@@ -18,7 +18,7 @@ end
 
 function _draw()
 	cls() --clear screen
-	map(0,0,game_map.x,game_map.y,16,16)
+	map(game_map.x,game_map.y,0,0,16,16)
 	draw_player()
 end
 

@@ -32,7 +32,7 @@ function fl(num)
 end
 
 function get_tile(x,y)
-	return mget(fl(x),fl(y))
+	return mget(fl(x + (game_map.x * 8)),fl(y + (game_map.y * 8)))
 end
 
 function check_collision()
@@ -160,7 +160,12 @@ function move_player()
 		player.sprite_current = 25
 	end
 
-	if player.position.x > 124 then
-		game_map.x = game_map.x - 1
+	if (player.position.x > 124) then
+		player.position.x = 0
+		game_map.x = 15
+	end
+	if (player.position.x < 0) then
+		player.position.x = 124
+		game_map.x = 0
 	end
 end
