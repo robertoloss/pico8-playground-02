@@ -1,8 +1,12 @@
 -- test game
 -- by me
-cls, btn, spr, time, cocreate, coresume, map, mget, flr =
-cls, btn, spr, time, cocreate, coresume, map, mget, flr
-
+cls, btn, spr, time, cocreate, coresume, map, mget, flr, stat
+=
+cls, btn, spr, time, cocreate, coresume, map, mget, flr, stat
+game_map = {
+	x = 0,
+	y = 0,
+}
 function _init()
 	make_keymap()
 end
@@ -14,12 +18,13 @@ end
 
 function _draw()
 	cls() --clear screen
-	map()
+	map(0,0,game_map.x,game_map.y,16,16)
 	draw_player()
 end
 
 function draw_player()
-	spr(player.sprite, player.position.x,player.position.y)
+	spr(player.sprite_current, player.position.x,player.position.y)
+	print(player.position.x)
 	-- my_debug()
 end
 
@@ -34,6 +39,9 @@ function my_debug()
 	print(vx, 15, 24, 10)
 	print("vy: ", 1, 30, 10)
 	print(vy, 15, 30, 10)
+	print(stat(1))
+	print(new_x_position)
+	print(flr_new_x_position)
 	-- print(tru)
 	-- print(trd)
 	-- print(tlu)
