@@ -8,7 +8,7 @@ spritesheet_length = 3
 player = {
 	sprite_count = 0,
 	position = {
-		x = 64,
+		x = 32,
 		y = 112,
 	},
 	velocity = {
@@ -25,14 +25,38 @@ player = {
 	},
 	sprite_current = 25,
 	sprite_init = 25,
+	fire = false,
+	fire_count = 0,
+	facing = 'right'
 }
 
 function fl(num)
 	return flr(num / 8)
 end
 
+function get_tile_coord(x,y)
+	return {
+		fl(x + (game_map.x * 8)),
+		fl(y + (game_map.y * 8))
+	}
+end
 function get_tile(x,y)
-	return mget(fl(x + (game_map.x * 8)),fl(y + (game_map.y * 8)))
+	local xx = get_tile_coord(x, y)[1]
+	local yy = get_tile_coord(x, y)[2]
+	return mget(xx,yy)
+end
+
+
+function check_shot_right()
+	if player.fire then
+		x = player.position.x + player.velocity.x + 14
+		y = player.position.y + player.velocity.y + 5
+		tile = get_tile(x, y)
+		enemy_hit = fget(tile, 1)
+	else
+		enemy_hit = false
+	end
+	return enemy_hit
 end
 
 function check_collision()
@@ -85,16 +109,6 @@ function manage_collision(x,y)
 end
 
 function move_player()
-	player.sprite_count = player.sprite_count + 1;
-	if player.sprite_count == sprite_count_limit then
-		player.sprite_current = player.sprite_current + 1;
-		if player.sprite_current == player.sprite_init + spritesheet_length then
-			player.sprite_current = player.sprite_init;
-		end
-		player.sprite_count = 0
-	end
-
-
 
 	if btn(0) then
 		player.go_left = true
@@ -118,6 +132,9 @@ function move_player()
 		player.velocity.y = jump
 		sfx(0)
 	end
+	if key_down(5) then
+		player.fire = true
+	end
 
 	if player.go_left then
 		player.old_velocity.x = player.velocity.x
@@ -126,7 +143,7 @@ function move_player()
 		player.old_velocity.x = player.velocity.x
 		player.velocity.x = h_increase
 	else
-		player.old_velocity.x = player.velocity.x
+		--player.old_velocity.x = player.velocity.x
 		player.velocity.x = 0
 	end
 
@@ -134,6 +151,8 @@ function move_player()
 		player.old_velocity.y = player.velocity.y
 		player.velocity.y = player.velocity.y + gravity
 	end
+
+	hit = check_shot_right()
 
 	check_collision()
 	manage_collision(player.position.x, player.position.y)
@@ -143,29 +162,22 @@ function move_player()
 
 	player.position.x = new_x_position
 	player.position.y = player.position.y  + player.velocity.y
-	if player.velocity.x > 0 and not (player.old_velocity.x > 0) then
-		player.sprite_init = 19
-		player.sprite_current = 19
-	end
-	if player.velocity.x < 0 and not (player.old_velocity.x < 0) then
-		player.sprite_init = 35
-		player.sprite_current = 35
-	end
-	if player.velocity.x == 0 and (player.old_velocity.x < 0) then
-		player.sprite_init = 41
-		player.sprite_current = 41
-	end
-	if player.velocity.x == 0 and (player.old_velocity.x > 0) then
-		player.sprite_init = 25
-		player.sprite_current = 25
-	end
+
 
 	if (player.position.x > 124) then
 		player.position.x = 0
-		game_map.x = 15
+		game_map.x = game_map.x + 15
 	end
 	if (player.position.x < 0) then
 		player.position.x = 124
-		game_map.x = 0
+		game_map.x = game_map.x - 15
+	end
+	if (player.position.y > 124) then
+		player.position.y = 0
+		game_map.y = game_map.y + 15
+	end
+	if (player.position.y < 0) then
+		player.position.y = 124
+		game_map.y = game_map.y - 15
 	end
 end

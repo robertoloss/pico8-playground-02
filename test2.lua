@@ -14,6 +14,7 @@ end
 function _update60()
 	key_checker()
 	move_player()
+	animate_player()
 end
 
 function _draw()
@@ -23,9 +24,35 @@ function _draw()
 end
 
 function draw_player()
-	spr(player.sprite_current, player.position.x,player.position.y)
-	print(player.position.x)
-	-- my_debug()
+	if player.fire then
+		if player.fire_count < 8 then
+			if player.facing == 'right' then
+				spr(3, player.position.x,player.position.y)
+				spr(4, player.position.x + 8,player.position.y)
+			else
+				spr(51, player.position.x,player.position.y)
+				spr(50, player.position.x - 8,player.position.y)
+			end
+			player.fire_count = player.fire_count + 1
+		else
+			player.fire_count = 0
+			player.fire = false
+		end
+	else
+		spr(player.sprite_current, player.position.x,player.position.y)
+	end
+	print(hit,0,0,10)
+	print(player.fire, 0, 8, 10)
+	if hit then
+		local x = (player.position.x + player.velocity.x + 14)
+		local y = (player.position.y + player.velocity.y)
+		local xx,yy = get_tile_coord(x,y)[1],get_tile_coord(x,y)[2]
+		mset(xx,yy,1)
+	end
+end
+enemies = {
+}
+function draw_enemies()
 end
 
 function my_debug()
