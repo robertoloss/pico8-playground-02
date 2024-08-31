@@ -1,6 +1,6 @@
 fget, sfx, ceil = fget, sfx, ceil
-gravity = 0.15
-jump = -2.2
+gravity = 0.10
+jump = -1.8
 --h_increase = 1
 h_increase = 0.5
 sprite_count_limit = 5

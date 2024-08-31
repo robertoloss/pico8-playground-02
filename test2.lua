@@ -54,7 +54,7 @@ end
 
 function draw_player()
 	if player.fire then
-		if player.fire_count < 12 then
+		if player.fire_count < 16 then
 			if player.facing == 'right' then
 				spr(3, player.position.x,player.position.y)
 				spr(4, player.position.x + 8,player.position.y)
