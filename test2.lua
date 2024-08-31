@@ -9,6 +9,7 @@ game_map = {
 }
 function _init()
 	make_keymap()
+	check_map_tiles()
 end
 
 function _update60()
@@ -21,11 +22,39 @@ function _draw()
 	cls() --clear screen
 	map(game_map.x,game_map.y,0,0,16,16)
 	draw_player()
+	draw_enemies()
+	--print(game_map.x, 0, 0, 10)
+	--print(game_map.y, 0, 8, 10)
+end
+
+function draw_enemies()
+	for i,e in ipairs(enemies_list) do
+		if game_map.x == e.map.tile_x and game_map.y == e.map.tile_y then
+			e.position.x = e.position.x + e.velocity.x
+			if e.position.x <= (e.init_pos.x - 24) or e.position.x >= e.init_pos.x then
+				e.velocity.x = -e.velocity.x
+			end
+			if e.velocity.x > 0 then
+				e.sprite_current = e.sprite_init_right
+			else
+				e.sprite_current = e.sprite_init_left
+			end
+			e.anim_counter = e.anim_counter + 1
+			if e.anim_counter > 16 then
+				e.sprite_increment = 1
+			end
+			if e.anim_counter > 32 then
+				e.sprite_increment = 0
+				e.anim_counter = 0
+			end
+			spr(e.sprite_current + e.sprite_increment, e.position.x, e.position.y)
+		end
+	end
 end
 
 function draw_player()
 	if player.fire then
-		if player.fire_count < 8 then
+		if player.fire_count < 12 then
 			if player.facing == 'right' then
 				spr(3, player.position.x,player.position.y)
 				spr(4, player.position.x + 8,player.position.y)
@@ -41,18 +70,12 @@ function draw_player()
 	else
 		spr(player.sprite_current, player.position.x,player.position.y)
 	end
-	print(hit,0,0,10)
-	print(player.fire, 0, 8, 10)
 	if hit then
 		local x = (player.position.x + player.velocity.x + 14)
 		local y = (player.position.y + player.velocity.y)
 		local xx,yy = get_tile_coord(x,y)[1],get_tile_coord(x,y)[2]
 		mset(xx,yy,1)
 	end
-end
-enemies = {
-}
-function draw_enemies()
 end
 
 function my_debug()
