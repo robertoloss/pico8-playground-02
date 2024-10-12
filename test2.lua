@@ -23,7 +23,7 @@ function _draw()
 	map(game_map.x,game_map.y,0,0,16,16)
 	draw_player()
 	draw_enemies()
-	--print(game_map.x, 0, 0, 10)
+	print(game_map.x, 0, 0, 10)
 	--print(game_map.y, 0, 8, 10)
 end
 
